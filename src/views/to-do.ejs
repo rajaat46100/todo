@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="css/to-do.css" rel="stylesheet">
+    <link href="lib\bootstrap\dist\css\bootstrap.min.css" rel="stylesheet">
+    <script src="lib\jquery\dist\jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="row">
+     <div class="col-sm-8"></div>
+     <div class="col-sm-2 user"><%=email%></div>
+     <a href="to-do/logout"><div class="col-sm-2 logout"><button class="btn btn-default">Log out</button></div></a>
+    </div>
+
+    
+    <div class="row add-todo" >
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6" style='background:white' id="memo-box">
+             <label>Add A Memo:</label>
+             <textarea class="form-control" rows="5" id="to-do"></textarea> 
+            <br>
+            <button class="btn btn-info todo-btn" id="addTodo" style="width:20%;float:right;">Add Memo</button>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <br>
+    <!--Pending-->
+    <div class="row" id="pending-row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <h2>Pending</h2>
+            <div class="row top">
+                <div class="col-sm-6 head active" id="private-pending">Private</div>
+                <div class="col-sm-6 head" id="shared-pending">Shared</div>
+            </div>
+            <!--Pending Private-->
+            <div class="row back-row" id="pending-private" style="display:block;">
+                <table class="table table-bordered">
+                    <tbody id="pending-priv-body">
+                        <%for(var i=0;i<todos.pending.private.length;i++){%>
+                        <tr>
+                            <td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick"><span>Mark Completed</span></label></td>
+                            <td class="task-cell"><%=todos.pending.private[i]%></td>
+                            <td><button class="btn btn-info" id="shareTodo">Share</button></td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+
+            </div>
+            <!--Pending Shared-->
+            <div class="row back-row" id="pending-shared" style="display:none;">
+                <table class="table table-bordered">
+                    <tbody id="pending-shared-body">
+                      <%for(var i=0;i<todos.pending.shared.length;i++){%>
+                        <tr>
+                            <td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick"><span>Mark Completed</span></label></td>
+                            <td class="task-cell"><%=todos.pending.shared[i]%></td>
+                            <td><button class="btn btn-info" id="shareTodo">Share</button></td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+    </div>
+    <br>
+    <!--Completed-->
+    <div class="row" id="completed-row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <h2>Completed</h2>
+            <div class="row top">
+                <div class="col-sm-6 head active" id="private-complete">Private</div>
+                <div class="col-sm-6 head" id="shared-complete">Shared</div>
+            </div>
+            <!--Completed Private-->
+            <div class="row back-row" id="completed-private" style="display:block;">
+                <table class="table table-bordered">
+                    <tbody id="completed-priv-body">
+                     <%for(var i=0;i<todos.completed.private.length;i++){%>
+                        <tr>
+                            <td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick" checked><span>Unmark</span></label></td>
+                            <td class="task-cell"><%=todos.completed.private[i]%></td>
+                            <td><button class="btn btn-info" id="shareTodo">Share</button></td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+
+            </div>
+            <!--Completed Shared-->
+            <div class="row back-row" id="completed-shared" style="display:none;">
+                <table class="table table-bordered">
+                    <tbody id="completed-shared-body">
+                        <%for(var i=0;i<todos.completed.shared.length;i++){%>
+                        <tr>
+                            <td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick" checked><span>Unmark</span></label></td>
+                            <td class="task-cell"><%=todos.completed.shared[i]%></td>
+                            <td><button class="btn btn-info" id="shareTodo">Share</button></td>
+                        </tr>
+                        <%}%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3"></div>
+    </div>
+
+    <div class="share-suggestion" id="share">
+      <div class="suggestion-inner">
+        <div class="input-box">
+        <div class="close" id="closeShare"></div>
+        <label>Share To:</label>
+            <input type="text" class="form-control" style="width:100%;border-radius:0;float:left" id="findUsers" placeholder="Enter email to search">
+        </div>
+        <div class="suggestion-box" id="suggestionBox">
+        
+        </div>
+        <label>Memo:</label>
+        <textarea class="form-control" rows="5" id="todoContent"></textarea> 
+         <button class="btn btn-info" style="float:right" id="shareMemo">Share</button>
+    </div>
+    </div>
+
+    <script src="js/to-do.js"></script>
+    <script src="js/addMemo.js"></script>
+</body>
+
+</html>

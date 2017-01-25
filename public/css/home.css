@@ -1,0 +1,44 @@
+.err{
+  color:red;
+  font-size: 16px;
+  text-transform: capitalize;
+  display: none;
+ 
+ }
+
+.head{
+    text-align: center;
+    font-size: 22px;
+    padding: 5px;
+    cursor: pointer;
+      -webkit-box-shadow: -1px 0px 7px -3px rgba(0,0,0,0.7);
+-moz-box-shadow: -1px 0px 7px -3px rgba(0,0,0,0.7);
+box-shadow: -1px 0px 7px -3px rgba(0,0,0,0.7);
+
+}
+.active{
+    border-bottom:2px solid red;
+  
+}
+
+h1,h2,h3,h4,h5,h6,div,body,html{
+    margin: 0;
+    padding: 0;
+}
+
+.form{
+    width: 70%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.box{
+       -webkit-box-shadow: -1px 0px 7px -3px rgba(0,0,0,0.7);
+-moz-box-shadow: -1px 0px 7px -3px rgba(0,0,0,0.7);
+box-shadow: -1px 0px 7px -3px rgba(0,0,0,0.7);
+}
+
+.top{
+    margin-top: 2%;
+    
+}
