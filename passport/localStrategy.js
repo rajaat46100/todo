@@ -2,7 +2,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongodb = require('mongodb').MongoClient;
 
 function strategy(passport) {
-    console.log('local');
     passport.use(new LocalStrategy({
             usernameField: 'email'
         },
@@ -10,7 +9,6 @@ function strategy(passport) {
             console.log('authentication');
             console.log(email, password)
             mongodb.connect('mongodb://localhost:27017/test', function(err, db) {
-
                 var collection = db.collection('user');
                 collection.findOne({
                     $and: [

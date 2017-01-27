@@ -2,7 +2,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var app = express();
+var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
 
 
 app.use(express.static('public'));
@@ -21,7 +24,9 @@ var signinRouter = require('./routers/signin')();
 var signupRouter = require('./routers/signup')();
 app.use('/SignIn', signinRouter);
 app.use('/SignUp', signupRouter);
-var todoRouter = require('./routers/todo')();
+
+
+var todoRouter = require('./routers/todo')(io);
 
 app.use('/to-do', todoRouter);
 
@@ -41,6 +46,6 @@ app.get('/', function(req, res) {
 
 
 
-app.listen(3000, function() {
+server.listen(3000, function() {
     console.log('listening...');
 });

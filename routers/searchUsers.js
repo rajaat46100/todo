@@ -3,7 +3,6 @@ var searchRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 
 function router() {
-
     searchRouter.route('/')
         .post(function(req, res) {
             var output = [];

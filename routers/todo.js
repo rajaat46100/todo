@@ -2,8 +2,9 @@ var express = require('express');
 var todoRouter = express.Router();
 var mongodb = require('mongodb').MongoClient;
 
-function route() {
+function route(io) {
     var todos;
+    var users = {};
     todoRouter.use(function(req, res, next) {
         if (!req.user) {
             res.redirect('/');
@@ -26,7 +27,11 @@ function route() {
                     }
                     if (results) {
                         todos = results.todos;
-                        console.log(results.todos);
+                        io.of('/to-do').on('connection', function(socket) {
+                            users[req.user] = socket;
+                        });
+
+
                         res.render('to-do', { todos: todos, email: req.user });
                     }
 
@@ -36,6 +41,7 @@ function route() {
 
     todoRouter.route('/logout')
         .get(function(req, res) {
+            delete users[req.user];
             req.logout();
             res.redirect('/');
         });
@@ -104,6 +110,7 @@ function route() {
             var memo = req.body.memo;
             var toUser = req.body.toUser;
 
+
             mongodb.connect('mongodb://localhost:27017/test', function(err, db) {
                 if (err) {
                     console.log(err);
@@ -118,6 +125,9 @@ function route() {
                         res.status(503).send(err);
                     }
                     if (results) {
+                        if (users[toUser]) {
+                            users[toUser].emit('change', { shared: memo });
+                        }
                         res.send('Successful');
                     }
                 });
@@ -128,6 +138,7 @@ function route() {
 
     var searchRouter = require('./searchUsers')();
     todoRouter.use('/searchUsers', searchRouter);
+
     return todoRouter;
 }
 

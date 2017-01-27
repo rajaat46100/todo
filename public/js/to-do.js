@@ -46,32 +46,33 @@
 
     AddMemo.prototype = {
         attachMemo: function(memo, context) {
-
             this.addButton.on('click', function() {
-                var request = $.ajax({
-                    url: '/to-do/addMemo',
-                    method: 'POST',
-                    data: { memo: memo.val() }
-                });
-                request.done(function(response) {
-                    var str = '<tr>' +
-                        '<td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick"><span>Mark Completed</span></label></td>' +
-                        '<td class="task-cell">' + memo.val() + '</td>' +
-                        '<td><button class="btn btn-info" id="shareTodo">Share</button></td>' +
-                        '</tr>';
-                    $(context).append(str);
-                    $('body').append('<div class="success-response">' + response + '</div>');
-                    setTimeout(function() {
-                        $('.success-response').remove();
-                    }, 2000)
-                });
+                if (memo.val().trim().length > 0) {
+                    var request = $.ajax({
+                        url: '/to-do/addMemo',
+                        method: 'POST',
+                        data: { memo: memo.val() }
+                    });
+                    request.done(function(response) {
+                        var str = '<tr>' +
+                            '<td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick"><span>Mark Completed</span></label></td>' +
+                            '<td class="task-cell">' + memo.val() + '</td>' +
+                            '<td><button class="btn btn-info" id="shareTodo">Share</button></td>' +
+                            '</tr>';
+                        $(context).append(str);
+                        $('body').append('<div class="success-response">' + response + '</div>');
+                        setTimeout(function() {
+                            $('.success-response').remove();
+                        }, 2000)
+                    });
 
-                request.fail(function(err) {
-                    console.log('error', err);
-                });
-
+                    request.fail(function(err) {
+                        console.log('error', err);
+                    });
+                }
 
             });
+
         },
 
         attachEvents: function() {
@@ -191,6 +192,41 @@
 
     }
     Share($('#share'));
+
+
+    // setInterval(function() {
+    //     var request = $.ajax({
+    //         url: '/to-do/searchShared',
+    //         method: 'POST',
+    //         data: { oldShared: data }
+    //     });
+    //     request.done(function(response) {
+    //         data = response;
+    //         console.log(response);
+    //     });
+    //     request.fail(function(err) {
+    //         console.log('err')
+    //     })
+    // }, 5000);
+
+    var socket = io.connect('http://localhost:3000/to-do');
+    socket.on('change', function(data) {
+        var str = '<tr>' +
+            '<td class="checkbox-cell"><label class="checkbox-inline"><input type="checkbox" id="tick"><span>Mark Completed</span></label></td>' +
+            '<td class="task-cell">' + data.shared + '</td>' +
+            '<td><button class="btn btn-info" id="shareTodo">Share</button></td>' +
+            '</tr>';
+        $('#pending-shared-body').append(str);
+        setTimeout(function() {
+            $('body').append('<div class="success-response"> New Shared Memo </div>');
+        }, 5000)
+
+
+
+        setTimeout(function() {
+            $('.success-response').remove();
+        }, 8000)
+    });
 
 
 })(this.document, this.$);
